@@ -1,0 +1,82 @@
+name: CI/CD - model-hub
+
+on:
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - README.md
+      - CHANGELOG.md
+  push:
+    branches: [main]
+    paths-ignore:
+      - README.md
+      - CHANGELOG.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  GO_VERSION: "1.26"
+
+jobs:
+  unit-tests:
+    name: Go unit tests
+    runs-on: [ubuntu-latest]
+    env:
+      CGO_ENABLED: "0"
+      GOCACHE: ${{ github.workspace }}/.gocache
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Download modules
+        run: go mod download
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Run unit tests
+        run: go test -v ./internal/... -cover
+
+  release-please:
+    needs: [unit-tests]
+    if: github.ref == 'refs/heads/main'
+    runs-on: [ubuntu-latest]
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - uses: googleapis/release-please-action@v5
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  docker-build-push:
+    needs: [release-please]
+    if: needs.release-please.outputs.release_created == 'true'
+    uses: ./.github/workflows/docker-build-push.yaml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      name: Build and push duckduckgo-mcp
+      docker_image_name: ghcr.io/${{ github.repository }}/duckduckgo-mcp
+      version: ${{ needs.release-please.outputs.version }}
+      folder: .
+      dockerfileName: Dockerfile
