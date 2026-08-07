@@ -1,5 +1,6 @@
 // Package handlers exposes thin MCP tool handlers that delegate business
 // logic to pkg/utils.
+
 package handlers
 
 import (
@@ -13,7 +14,7 @@ import (
 
 // SearchInput is the input schema for the "duckduckgo_search" tool.
 type SearchInput struct {
-	Query      string `json:"query" jsonschema:"the search query / topic to look up on the internet"`
+	Query      string `json:"query"                 jsonschema:"the search query / topic to look up on the internet"`
 	MaxResults int    `json:"max_results,omitempty" jsonschema:"maximum number of results to return (default 10, max 25)"`
 }
 
