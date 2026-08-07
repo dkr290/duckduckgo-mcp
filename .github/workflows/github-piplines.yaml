@@ -24,6 +24,16 @@ env:
   GO_VERSION: "1.26"
 
 jobs:
+  lint-pr-title:
+    if: github.event_name == 'pull_request'
+    runs-on: [ubuntu-latest]
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   unit-tests:
     name: Go unit tests
     runs-on: [ubuntu-latest]
