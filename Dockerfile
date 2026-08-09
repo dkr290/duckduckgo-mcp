@@ -17,6 +17,7 @@ WORKDIR /app
 
 COPY --from=builder /out/duckduckgo-mcp .
 
+RUN adduser --disabled-password --gecos "" mcp
 # HTTP address/path served by the MCP streamable handler. Override at
 # runtime with `-e MCP_ADDR=:8080 -e MCP_PATH=/mcp` if needed.
 ENV MCP_ADDR=:8080
