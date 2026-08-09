@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4](https://github.com/dkr290/duckduckgo-mcp/compare/v0.1.3...v0.1.4) (2026-08-09)
+
+
+### Bug Fixes
+
+* dockerfiles user never created but referenced ([b1789fe](https://github.com/dkr290/duckduckgo-mcp/commit/b1789fec4fb0d63c4f5e34245fa281789ec81eea))
+* dockerfiles user never created but referenced ([dce93ab](https://github.com/dkr290/duckduckgo-mcp/commit/dce93ab6df9a48a827a0452212bf13bb28bc6a85))
+
 ## [0.1.3](https://github.com/dkr290/duckduckgo-mcp/compare/v0.1.2...v0.1.3) (2026-08-07)
 
 
