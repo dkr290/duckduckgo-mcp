@@ -6,14 +6,15 @@ COPY vendor ./vendor
 COPY . .
 
 # Build a static binary for linux so it runs in the minimal runtime image.
-# -mod=vendor avoids any network access during the build (useful behind
-# proxies/TLS-inspecting firewalls).
+# -mod=vendor avoids any network access during the build.
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
     go build -mod=vendor -ldflags="-s -w" -o /out/duckduckgo-mcp .
 
 FROM debian:bookworm-slim
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /out/duckduckgo-mcp .
 
