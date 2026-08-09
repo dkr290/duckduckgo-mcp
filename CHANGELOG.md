@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/dkr290/duckduckgo-mcp/compare/v0.1.4...v0.1.5) (2026-08-09)
+
+
+### Bug Fixes
+
+* install ca-certificates in runtime Docker image ([067b5a8](https://github.com/dkr290/duckduckgo-mcp/commit/067b5a821d890e8d27b82ede0d98bf63e614d1f9))
+* install ca-certificates in runtime Docker image ([515f1d9](https://github.com/dkr290/duckduckgo-mcp/commit/515f1d9589740a72e360a349995eccb71d5d681f))
+
 ## [0.1.4](https://github.com/dkr290/duckduckgo-mcp/compare/v0.1.3...v0.1.4) (2026-08-09)
 
 
