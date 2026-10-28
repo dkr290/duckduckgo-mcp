@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://github.com/dkr290/duckduckgo-mcp/compare/v0.1.5...v0.2.0) (2026-10-28)
+
+
+### Features
+
+* add multi-arch build support (amd64 + arm64) ([4dd6b87](https://github.com/dkr290/duckduckgo-mcp/commit/4dd6b87b93e44e4618adfa0fa98f75ec34248196))
+* add multi-arch build support (amd64 + arm64) ([debce23](https://github.com/dkr290/duckduckgo-mcp/commit/debce23e50ebab7aeab20ef7f54010c1f5ab2d53))
+
 ## [0.1.5](https://github.com/dkr290/duckduckgo-mcp/compare/v0.1.4...v0.1.5) (2026-08-09)
 
 
