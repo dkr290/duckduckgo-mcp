@@ -50,6 +50,10 @@ jobs:
         if: steps.check-tag.outputs.exists == 'true'
         run: echo "✓ Docker image tag ${{ inputs.version }} already exists in GHCR. Skipping build."
 
+      - name: Set up QEMU
+        if: steps.check-tag.outputs.exists == 'false'
+        uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         if: steps.check-tag.outputs.exists == 'false'
         uses: docker/setup-buildx-action@v3
@@ -72,6 +76,7 @@ jobs:
           context: ${{ inputs.folder }}
           file: ${{ inputs.folder }}/${{ inputs.dockerfileName }}
           push: ${{ github.event_name != 'pull_request' }}
+          platforms: linux/amd64,linux/arm64
           tags: ${{ inputs.docker_image_name }}:${{ inputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

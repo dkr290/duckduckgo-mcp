@@ -7,7 +7,9 @@ COPY . .
 
 # Build a static binary for linux so it runs in the minimal runtime image.
 # -mod=vendor avoids any network access during the build.
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+# TARGETARCH is automatically populated by Buildx to match the target platform.
+ARG TARGETARCH
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} \
     go build -mod=vendor -ldflags="-s -w" -o /out/duckduckgo-mcp .
 
 FROM debian:bookworm-slim
